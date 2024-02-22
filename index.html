@@ -13,33 +13,25 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <i class="fa-solid fa-magnifying-glass" onclick="openSearchBox()"></i>
-    <span id="input-area">
-      <input type="text" id="search-input" placeholder="search" />
-      <button class="search-button" onclick="searchNews()">Go</button>
-    </span>
-    <div class="side-menu" id="mySidenav">
-      <button class="closebtn" onclick="closeNav()">&times;</button>
-      <div class="side-menu-list" id="menu-list">
-        <button>Sport</button>
-        <button>Tech</button>
-        <button>World</button>
-        <button>Finance</button>
-        <button>Politics</button>
-        <button>Business</button>
-        <button>Economics</button>
-        <button>Entertainment</button>
-        <button>Beauty</button>
-        <button>Travel</button>
-        <button>Music</button>
-        <button>Food</button>
-        <button>Science</button>
-        <button>Gaming</button>
-        <button>Energy</button>
-      </div>
-    </div>
-    <i class="fas fa-bars hide icon-button" onclick="openNav()"></i>
     <section class="container">
+      <i class="fa-solid fa-magnifying-glass" onclick="openSearchBox()"></i>
+      <span id="input-area">
+        <input type="text" id="search-input" placeholder="search" />
+        <button id="search-button" onclick="searchNews()">Go</button>
+      </span>
+      <div class="side-menu" id="mySidenav">
+        <button class="closebtn" onclick="closeNav()">&times;</button>
+        <div class="side-menu-list" id="menu-list">
+          <button>Business</button>
+          <button>Entertainment</button>
+          <button>General</button>
+          <button>Health</button>
+          <button>Science</button>
+          <button>Sport</button>
+          <button>Technology</button>
+        </div>
+      </div>
+      <i class="fas fa-bars hide icon-button" onclick="openNav()"></i>
       <section>
         <div class="head-line">
           <svg viewBox="0 0 184 25" fill="#000">
@@ -49,38 +41,16 @@
           </svg>
         </div>
         <div class="menus">
-          <button>Sport</button>
-          <button>Tech</button>
-          <button>World</button>
-          <button>Finance</button>
-          <button>Politics</button>
           <button>Business</button>
-          <button>Economics</button>
           <button>Entertainment</button>
-          <button>Beauty</button>
-          <button>Travel</button>
-          <button>Music</button>
-          <button>Food</button>
+          <button>General</button>
+          <button>Health</button>
           <button>Science</button>
-          <button>Gaming</button>
-          <button>Energy</button>
+          <button>Sport</button>
+          <button>Technology</button>
         </div>
       </section>
-      <section id="news-board">
-        <!-- <div class="row news">
-          <div class="col-lg-4">
-            <img
-              class="news-img-size"
-              src="https://newsimg-hams.hankookilbo.com/2023/05/01/effa0c08-d6f5-4611-b2c4-e70e2fe5dfe7.jpg"
-            />
-          </div>
-          <div class="col-lg-8">
-            <h2>르세라핌</h2>
-            <p>그는 누구인가</p>
-            <div>sbs * 2000</div>
-          </div>
-        </div> -->
-      </section>
+      <section id="news-board"></section>
     </section>
 
     <script

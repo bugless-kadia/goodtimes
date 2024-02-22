@@ -1,4 +1,16 @@
 let newsList = [];
+const openNav = () => {
+  document.getElementById('mySidenav').style.width = '250px';
+};
+const closeNav = () => {
+  document.getElementById('mySidenav').style.width = '0';
+};
+const menus = document.querySelectorAll('.menus button');
+console.log(menus);
+menus.forEach((menu) =>
+  menu.addEventListener('click', (event) => getNewsByCategory(event))
+);
+
 const getLatestNews = async () => {
   const url = new URL(
     `https://tubular-crostata-0ed0ae.netlify.app/top-headlines`
@@ -10,11 +22,17 @@ const getLatestNews = async () => {
   console.log('rrr', newsList);
 };
 
-const openNav = () => {
-  document.getElementById('mySidenav').style.width = '250px';
-};
-const closeNav = () => {
-  document.getElementById('mySidenav').style.width = '0';
+const getNewsByCategory = async (event) => {
+  const category = event.target.textContent.toLowerCase();
+  console.log(category);
+  const url = new URL(
+    `https://tubular-crostata-0ed0ae.netlify.app/top-headlines?category=${category}`
+  );
+  const response = await fetch(url);
+  const data = await response.json();
+  console.log('DDD', data);
+  newsList = data.articles;
+  render();
 };
 
 const openSearchBox = () => {
@@ -24,6 +42,18 @@ const openSearchBox = () => {
   } else {
     inputArea.style.display = 'inline';
   }
+};
+const searchNews = async () => {
+  let searchInput = document.getElementById('search-input');
+  const keyword = searchInput.value;
+  const url = new URL(
+    `https://tubular-crostata-0ed0ae.netlify.app/top-headlines?q=${keyword}`
+  );
+  const response = await fetch(url);
+  const data = await response.json();
+  console.log('abc', data);
+  newsList = data.articles;
+  render();
 };
 
 const render = () => {
