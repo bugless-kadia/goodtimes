@@ -1,4 +1,5 @@
 let newsList = [];
+let url = new URL(`https://tubular-crostata-0ed0ae.netlify.app/top-headlines`);
 const openNav = () => {
   document.getElementById('mySidenav').style.width = '250px';
 };
@@ -11,28 +12,37 @@ menus.forEach((menu) =>
   menu.addEventListener('click', (event) => getNewsByCategory(event))
 );
 
+const getNews = async () => {
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    if (response.status === 200) {
+      if (data.articles.length === 0) {
+        throw new Error('now result for this search');
+      }
+      newsList = data.articles;
+      render();
+    } else {
+      throw new Error(data.message);
+    }
+  } catch (error) {
+    console.log('error', error);
+    errorRender(error);
+  }
+};
+
 const getLatestNews = async () => {
-  const url = new URL(
-    `https://tubular-crostata-0ed0ae.netlify.app/top-headlines`
-  );
-  const response = await fetch(url);
-  const data = await response.json();
-  newsList = data.articles;
-  render();
-  console.log('rrr', newsList);
+  url = new URL(`https://tubular-crostata-0ed0ae.netlify.app/top-headlines`);
+  getNews();
 };
 
 const getNewsByCategory = async (event) => {
   const category = event.target.textContent.toLowerCase();
   console.log(category);
-  const url = new URL(
+  url = new URL(
     `https://tubular-crostata-0ed0ae.netlify.app/top-headlines?category=${category}`
   );
-  const response = await fetch(url);
-  const data = await response.json();
-  console.log('DDD', data);
-  newsList = data.articles;
-  render();
+  getNews();
 };
 
 const openSearchBox = () => {
@@ -46,14 +56,10 @@ const openSearchBox = () => {
 const searchNews = async () => {
   let searchInput = document.getElementById('search-input');
   const keyword = searchInput.value;
-  const url = new URL(
+  url = new URL(
     `https://tubular-crostata-0ed0ae.netlify.app/top-headlines?q=${keyword}`
   );
-  const response = await fetch(url);
-  const data = await response.json();
-  console.log('abc', data);
-  newsList = data.articles;
-  render();
+  getNews();
 };
 
 const render = () => {
@@ -92,4 +98,13 @@ const render = () => {
     .join('');
   document.getElementById('news-board').innerHTML = newsHTML;
 };
+
+const errorRender = (errorMessage) => {
+  const errorHTML = `<div class="alert alert-danger" role="alert">
+  ${errorMessage}
+</div>`;
+
+  document.getElementById('news-board').innerHTML = errorHTML;
+};
+
 getLatestNews();
