@@ -93,15 +93,22 @@ body {
   .icon-button {
     visibility: hidden;
   }
+  .div-hr {
+    display: none;
+  }
 }
 @media (max-width: 600px) {
   .menus {
     display: none;
+    margin-bottom: 5px;
   }
   .icon-button {
     font-size: 25px;
     position: relative;
     left: -2px;
     margin-top: 2px;
+  }
+  .div-hr {
+    border-top: 2px solid black;
   }
 }
