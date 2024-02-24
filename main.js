@@ -1,5 +1,9 @@
 let newsList = [];
 let url = new URL(`https://tubular-crostata-0ed0ae.netlify.app/top-headlines`);
+let totalResults = 0;
+let page = 1;
+const pageSize = 10;
+const groupSize = 5;
 const openNav = () => {
   document.getElementById('mySidenav').style.width = '250px';
 };
@@ -7,21 +11,32 @@ const closeNav = () => {
   document.getElementById('mySidenav').style.width = '0';
 };
 const menus = document.querySelectorAll('.menus button');
-console.log(menus);
 menus.forEach((menu) =>
   menu.addEventListener('click', (event) => getNewsByCategory(event))
 );
+const sideMenus = document.querySelectorAll('.side-menu-list button');
+sideMenus.forEach((sideMenu) =>
+  sideMenu.addEventListener('click', (event) => getNewsByCategory(event))
+);
+console.log(sideMenus);
 
 const getNews = async () => {
   try {
+    url.searchParams.set('page', page); // -> &page=page
+    url.searchParams.set('pageSize', pageSize);
+
     const response = await fetch(url);
+    console.log(response);
     const data = await response.json();
+    console.log(data);
     if (response.status === 200) {
       if (data.articles.length === 0) {
         throw new Error('now result for this search');
       }
       newsList = data.articles;
+      totalResults = data.totalResults;
       render();
+      paginationRender();
     } else {
       throw new Error(data.message);
     }
@@ -105,6 +120,43 @@ const errorRender = (errorMessage) => {
 </div>`;
 
   document.getElementById('news-board').innerHTML = errorHTML;
+};
+
+const paginationRender = () => {
+  // totalResults
+  // page
+  // pageSize
+  // groupSize
+
+  // totalPages
+  const totalPages = Math.ceil(totalResults / pageSize);
+  // pageGroup
+  const pageGroup = Math.ceil(page / groupSize);
+  // lastPage
+  let lastPage = pageGroup * groupSize;
+  // lastPage가 totalPages보다 크다면?
+  if (lastPage > totalPages) {
+    lastPage = totalPages;
+  }
+  // firstPage
+  const firstPage =
+    lastPage - (groupSize - 1) <= 0 ? 1 : lastPage - (groupSize - 1);
+
+  let paginationHTML = ``;
+
+  for (let i = firstPage; i <= lastPage; i++) {
+    paginationHTML += `<li class="page-item ${
+      i === page ? 'active' : ''
+    }" onclick="moveToPage(${i})"><a class="page-link">${i}</a></li>`;
+  }
+
+  document.querySelector('.pagination').innerHTML = paginationHTML;
+};
+
+const moveToPage = (pageNum) => {
+  console.log(pageNum);
+  page = pageNum;
+  getNews();
 };
 
 getLatestNews();
